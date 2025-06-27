@@ -13,9 +13,138 @@
         <canvas id="gameCanvas"></canvas>
         <div class="ui-overlay">
             <div class="score">Score: <span id="score">0</span></div>
+            
+            <!-- Mode Selection Panel -->
+            <div class="mode-selector" id="mode-selector">
+                <div class="mode-header">
+                    <h3>🎯 SELECT CHALLENGE MODE</h3>
+                    <button class="close-btn" onclick="closeModeSelector()">×</button>
+                </div>
+                <div class="modes-grid">
+                    <div class="mode-card classic" onclick="selectMode('classic')">
+                        <div class="mode-icon">🎯</div>
+                        <div class="mode-name">Classic</div>
+                        <div class="mode-desc">Standard archery practice</div>
+                        <div class="mode-status unlocked">Available</div>
+                    </div>
+                    <div class="mode-card moving" onclick="selectMode('moving')">
+                        <div class="mode-icon">🎪</div>
+                        <div class="mode-name">Moving Targets</div>
+                        <div class="mode-desc">Targets that move around</div>
+                        <div class="mode-status locked">Unlock at Level 3</div>
+                    </div>
+                    <div class="mode-card windy" onclick="selectMode('windy')">
+                        <div class="mode-icon">💨</div>
+                        <div class="mode-name">Windy Day</div>
+                        <div class="mode-desc">Wind affects arrow flight</div>
+                        <div class="mode-status locked">Unlock at Level 5</div>
+                    </div>
+                    <div class="mode-card obstacles" onclick="selectMode('obstacles')">
+                        <div class="mode-icon">🧱</div>
+                        <div class="mode-name">Obstacle Course</div>
+                        <div class="mode-desc">Navigate around barriers</div>
+                        <div class="mode-status locked">Unlock at Level 7</div>
+                    </div>
+                    <div class="mode-card precision" onclick="selectMode('precision')">
+                        <div class="mode-icon">🔍</div>
+                        <div class="mode-name">Precision Challenge</div>
+                        <div class="mode-desc">Smaller targets, higher scores</div>
+                        <div class="mode-status locked">Unlock at Level 10</div>
+                    </div>
+                    <div class="mode-card timed" onclick="selectMode('timed')">
+                        <div class="mode-icon">⏱️</div>
+                        <div class="mode-name">Time Attack</div>
+                        <div class="mode-desc">Race against the clock</div>
+                        <div class="mode-status locked">Unlock at Level 12</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mode Toggle Button -->
+            <div class="mode-toggle" onclick="openModeSelector()">
+                <span id="current-mode-display">Classic Mode</span>
+                <div class="mode-toggle-icon">⚙️</div>
+            </div>
+            
+            <!-- Left Side Scoring Detail Board -->
+            <div class="scoring-board">
+                <div class="board-header">
+                    <h3>📊 SCORING DETAILS</h3>
+                </div>
+                
+                <div class="current-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Total Score:</span>
+                        <span class="stat-value" id="total-score">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Arrows Shot:</span>
+                        <span class="stat-value" id="arrows-shot">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Targets Hit:</span>
+                        <span class="stat-value" id="targets-hit">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Accuracy:</span>
+                        <span class="stat-value" id="accuracy">0%</span>
+                    </div>
+                </div>
+                
+                <div class="ring-breakdown">
+                    <h4>🎯 Ring Breakdown</h4>
+                    <div class="ring-stat bullseye">
+                        <div class="ring-color"></div>
+                        <span class="ring-name">Bullseye</span>
+                        <span class="ring-count" id="bullseye-count">0</span>
+                        <span class="ring-points">×10 = <span id="bullseye-points">0</span>pts</span>
+                    </div>
+                    <div class="ring-stat inner">
+                        <div class="ring-color"></div>
+                        <span class="ring-name">Inner</span>
+                        <span class="ring-count" id="inner-count">0</span>
+                        <span class="ring-points">×5 = <span id="inner-points">0</span>pts</span>
+                    </div>
+                    <div class="ring-stat middle">
+                        <div class="ring-color"></div>
+                        <span class="ring-name">Middle</span>
+                        <span class="ring-count" id="middle-count">0</span>
+                        <span class="ring-points">×3 = <span id="middle-points">0</span>pts</span>
+                    </div>
+                    <div class="ring-stat outer">
+                        <div class="ring-color"></div>
+                        <span class="ring-name">Outer</span>
+                        <span class="ring-count" id="outer-count">0</span>
+                        <span class="ring-points">×1 = <span id="outer-points">0</span>pts</span>
+                    </div>
+                </div>
+                
+                <div class="recent-shots">
+                    <h4>📈 Recent Shots</h4>
+                    <div class="shots-list" id="recent-shots">
+                        <div class="no-shots">No shots yet</div>
+                    </div>
+                </div>
+                
+                <div class="best-streak">
+                    <div class="stat-row">
+                        <span class="stat-label">Best Streak:</span>
+                        <span class="stat-value" id="best-streak">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Current Streak:</span>
+                        <span class="stat-value" id="current-streak">0</span>
+                    </div>
+                </div>
+            </div>
+            
             <div class="controls-hint">
                 <p>Desktop: Click and drag to aim, release to shoot</p>
                 <p>Mobile: Touch and drag to aim, release to shoot</p>
+                <div class="mobile-hint">
+                    <p>💡 Drag from stickman area for best accuracy</p>
+                    <p>🎯 Watch the power meter and trajectory line</p>
+                </div>
             </div>
         </div>
     </div>
