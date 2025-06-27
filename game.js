@@ -27,6 +27,7 @@ let wind = { x: 0, y: 0, strength: 0, direction: 0 };
 let obstacles = [];
 let levelStartTime = 0;
 let levelTimeLimit = 0;
+let levelCompleting = false; // Add flag to prevent multiple level completions
 
 // Available game modes
 const GAME_MODES = {
@@ -315,6 +316,7 @@ function initializeGame() {
 function initializeLevel() {
     levelStartTime = Date.now();
     levelProgress = 0;
+    levelCompleting = false; // Reset completion flag
     
     targets = [];
     obstacles = [];
@@ -703,6 +705,8 @@ function checkArrowTargetCollision(arrow, arrowIndex) {
                 gameStats.currentStreak++;
                 levelProgress++;
                 
+                console.log(`Target hit! Level progress: ${levelProgress}/${levelTargets}, Current level: ${currentLevel}`);
+                
                 if (gameStats.currentStreak > gameStats.bestStreak) {
                     gameStats.bestStreak = gameStats.currentStreak;
                 }
@@ -716,7 +720,7 @@ function checkArrowTargetCollision(arrow, arrowIndex) {
                 
                 setTimeout(() => {
                     targets.splice(j, 1);
-                    if (levelProgress < levelTargets) {
+                    if (levelProgress < levelTargets && !levelCompleting) {
                         spawnTarget();
                     }
                 }, 1500);
@@ -742,20 +746,33 @@ function addRecentShot(ringHit, points) {
 }
 
 function checkLevelCompletion() {
+    // Prevent multiple level completions
+    if (levelCompleting) return;
+    
     if (levelProgress >= levelTargets) {
+        levelCompleting = true; // Set flag to prevent multiple completions
+        
+        console.log(`Level ${currentLevel} completed! Progress: ${levelProgress}/${levelTargets}`);
+        
+        // Increment level
         currentLevel++;
         
+        // Check for mode unlocks
         Object.keys(GAME_MODES).forEach(mode => {
             if (GAME_MODES[mode].unlockLevel && currentLevel >= GAME_MODES[mode].unlockLevel) {
-                GAME_MODES[mode].unlocked = true;
+                if (!GAME_MODES[mode].unlocked) {
+                    GAME_MODES[mode].unlocked = true;
+                    console.log(`${GAME_MODES[mode].name} mode unlocked!`);
+                }
             }
         });
         
+        // Initialize next level after a delay
         setTimeout(() => {
             initializeLevel();
         }, 2000);
         
-        console.log(`Level ${currentLevel - 1} completed! Starting level ${currentLevel}`);
+        console.log(`Starting level ${currentLevel}`);
     }
 }
 // Enhanced visual hit effects system
@@ -1599,7 +1616,8 @@ function selectMode(mode) {
     }
     
     currentMode = mode;
-    currentLevel = 1;
+    currentLevel = 1; // Reset to level 1 when changing modes
+    levelCompleting = false; // Reset completion flag
     
     document.getElementById('current-mode-display').textContent = GAME_MODES[mode].name + ' Mode';
     
@@ -1608,7 +1626,7 @@ function selectMode(mode) {
     
     closeModeSelector();
     
-    console.log(`Switched to ${mode} mode`);
+    console.log(`Switched to ${mode} mode, starting at level 1`);
 }
 
 function updateModeCards() {
