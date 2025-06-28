@@ -23,6 +23,7 @@ body {
     justify-content: center;
     align-items: center;
     background: #000;
+    padding: 60px 20px 40px 20px; /* Added padding to accommodate UI elements */
 }
 
 /* Canvas styles with enhanced mobile optimization */
@@ -30,9 +31,10 @@ body {
     background: #000;
     border: 2px solid #333;
     cursor: crosshair;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 120px); /* Reduced max height to make canvas shorter */
     display: block;
+    margin: 60px auto 20px auto; /* Added top margin to center vertically */
     /* Enhanced mobile touch optimization */
     touch-action: none;
     user-select: none;
@@ -567,6 +569,16 @@ body {
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
+    .game-container {
+        padding: 50px 10px 30px 10px;
+    }
+    
+    #gameCanvas {
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 100px);
+        margin: 50px auto 15px auto;
+    }
+    
     .score {
         font-size: 16px;
         top: 10px;
@@ -702,6 +714,16 @@ body {
 
 /* Landscape mobile adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
+    .game-container {
+        padding: 30px 5px 20px 5px;
+    }
+    
+    #gameCanvas {
+        max-width: calc(100vw - 10px);
+        max-height: calc(100vh - 70px);
+        margin: 30px auto 10px auto;
+    }
+    
     .score {
         font-size: 14px;
         top: 5px;

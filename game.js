@@ -132,11 +132,16 @@ function setupCanvas() {
     let canvasWidth, canvasHeight;
     
     if (containerWidth / containerHeight > aspectRatio) {
-        canvasHeight = containerHeight - 40;
+        canvasHeight = containerHeight - 120; // Increased from 40 to make canvas shorter
         canvasWidth = canvasHeight * aspectRatio;
     } else {
         canvasWidth = containerWidth - 40;
         canvasHeight = canvasWidth / aspectRatio;
+        // Ensure height doesn't exceed available space minus UI elements
+        if (canvasHeight > containerHeight - 120) {
+            canvasHeight = containerHeight - 120;
+            canvasWidth = canvasHeight * aspectRatio;
+        }
     }
     
     canvas.width = canvasWidth;
