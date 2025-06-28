@@ -1654,4 +1654,13 @@ function updateModeCards() {
     });
 }
 
+// Toggle scoring board visibility
+function toggleScoringBoard() {
+    const scoringBoard = document.getElementById('scoring-board');
+    const toggleButton = document.getElementById('scoring-toggle');
+    
+    scoringBoard.classList.toggle('open');
+    toggleButton.classList.toggle('open');
+}
+
 window.addEventListener('load', init);

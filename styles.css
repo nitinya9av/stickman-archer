@@ -63,20 +63,24 @@ body {
 .score {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     z-index: 15;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid #444;
 }
 
 /* Mode Selection Interface */
 .mode-toggle {
     position: absolute;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 20px;
     background: rgba(0, 0, 0, 0.8);
     border: 2px solid #FFD700;
     border-radius: 25px;
@@ -91,11 +95,12 @@ body {
     transition: all 0.3s ease;
     z-index: 20;
     pointer-events: auto;
+    max-width: 200px;
 }
 
 .mode-toggle:hover {
     background: rgba(255, 215, 0, 0.1);
-    transform: translateX(-50%) scale(1.05);
+    transform: scale(1.05); /* Removed translateX since we're no longer centering */
 }
 
 .mode-toggle-icon {
@@ -238,24 +243,62 @@ body {
     color: #ccc;
 }
 
-/* Left Side Scoring Detail Board */
+/* Left Side Scoring Detail Board - Collapsible */
 .scoring-board {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+    position: fixed;
+    top: 80px;
+    left: -260px; /* Hidden by default */
     width: 280px;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.95);
     border: 2px solid #444;
-    border-radius: 10px;
+    border-radius: 0 10px 10px 0;
     padding: 15px;
     color: #fff;
     font-family: 'Arial', sans-serif;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 15;
-    max-height: calc(100vh - 40px);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 25;
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
     pointer-events: auto;
+    transition: left 0.3s ease-in-out;
+}
+
+.scoring-board.open {
+    left: 0; /* Slide in when open */
+}
+
+/* Toggle button for scoring board */
+.scoring-toggle {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 40px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #4CAF50;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    color: #4CAF50;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 30;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.scoring-toggle:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateX(5px);
+}
+
+.scoring-toggle.open {
+    left: 280px; /* Move with the board */
+    transform: rotate(180deg);
 }
 
 .board-header {
@@ -487,69 +530,125 @@ body {
     background: rgba(255, 255, 255, 0.5);
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
+/* Medium screen adjustments (tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
     .score {
-        font-size: 18px;
+        font-size: 20px;
         top: 15px;
-        right: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 14px;
     }
     
     .mode-toggle {
-        top: 70px;
+        top: 15px;
+        right: 15px;
         font-size: 12px;
-        padding: 6px 15px;
+        padding: 6px 16px;
+        max-width: 180px;
     }
     
     .scoring-board {
-        width: 240px;
-        left: 15px;
-        top: 15px;
-        padding: 12px;
-        font-size: 12px;
+        top: 65px;
+        left: -260px;
+        max-height: calc(100vh - 85px);
+    }
+    
+    .scoring-toggle {
+        top: 65px;
+    }
+    
+    .controls-hint {
+        font-size: 11px;
+        bottom: 15px;
+        padding: 6px 12px;
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .score {
+        font-size: 16px;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+    }
+    
+    .mode-toggle {
+        top: 10px;
+        right: 10px;
+        font-size: 11px;
+        padding: 6px 12px;
+        max-width: 150px;
+    }
+    
+    .scoring-board {
+        top: 60px;
+        left: -260px; /* Hidden by default */
+        width: 260px;
+        padding: 10px;
+        font-size: 11px;
+        max-height: calc(100vh - 80px);
+    }
+    
+    .scoring-board.open {
+        left: 0;
+    }
+    
+    .scoring-toggle {
+        top: 60px;
+        width: 35px;
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    .scoring-toggle.open {
+        left: 260px;
     }
     
     .board-header h3 {
-        font-size: 14px;
+        font-size: 12px;
     }
     
     .stat-row {
-        font-size: 12px;
-        margin: 6px 0;
+        font-size: 11px;
+        margin: 4px 0;
     }
     
     .ring-breakdown h4,
     .recent-shots h4 {
-        font-size: 12px;
+        font-size: 11px;
     }
     
     .ring-stat {
-        font-size: 11px;
-        gap: 6px;
+        font-size: 10px;
+        gap: 4px;
     }
     
     .controls-hint {
-        font-size: 12px;
-        bottom: 15px;
-        padding: 8px 12px;
+        font-size: 10px;
+        bottom: 10px;
+        padding: 6px 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(100vw - 20px);
     }
     
     .controls-hint p:first-child {
-        display: none; /* Hide desktop instructions on mobile */
+        display: none;
     }
     
     .mobile-hint {
         display: block;
     }
     
-    /* Improve touch target sizes */
     #gameCanvas {
-        cursor: none; /* Remove cursor on mobile */
+        cursor: none;
     }
     
-    /* Mode selector mobile adjustments */
     .mode-header h3 {
-        font-size: 20px;
+        font-size: 18px;
     }
     
     .modes-grid {
@@ -577,35 +676,95 @@ body {
 
 @media (max-height: 600px) {
     .scoring-board {
-        max-height: calc(100vh - 30px);
-        top: 15px;
+        max-height: calc(100vh - 60px);
+        top: 50px;
+    }
+    
+    .scoring-toggle {
+        top: 50px;
     }
     
     .controls-hint {
+        font-size: 10px;
+        bottom: 5px;
+    }
+    
+    .score {
+        font-size: 16px;
+        padding: 4px 12px;
+    }
+    
+    .mode-toggle {
         font-size: 11px;
-        bottom: 10px;
+        padding: 4px 12px;
     }
 }
 
 /* Landscape mobile adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
     .score {
-        font-size: 16px;
-        top: 10px;
-        right: 10px;
+        font-size: 14px;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 4px 10px;
+    }
+    
+    .mode-toggle {
+        top: 5px;
+        right: 5px;
+        font-size: 10px;
+        padding: 4px 10px;
+        max-width: 120px;
     }
     
     .scoring-board {
-        width: 220px;
-        left: 10px;
-        top: 10px;
-        padding: 10px;
-        max-height: calc(100vh - 20px);
+        top: 35px;
+        left: -240px;
+        width: 240px;
+        padding: 8px;
+        max-height: calc(100vh - 45px);
+        font-size: 10px;
+    }
+    
+    .scoring-board.open {
+        left: 0;
+    }
+    
+    .scoring-toggle {
+        top: 35px;
+        width: 30px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .scoring-toggle.open {
+        left: 240px;
     }
     
     .controls-hint {
+        font-size: 9px;
+        bottom: 5px;
+        padding: 4px 8px;
+    }
+    
+    .board-header h3 {
         font-size: 10px;
-        bottom: 10px;
+    }
+    
+    .stat-row {
+        font-size: 9px;
+        margin: 2px 0;
+    }
+    
+    .ring-breakdown h4,
+    .recent-shots h4 {
+        font-size: 9px;
+    }
+    
+    .ring-stat {
+        font-size: 8px;
+        gap: 3px;
     }
 }
 
